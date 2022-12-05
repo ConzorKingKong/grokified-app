@@ -45,9 +45,9 @@ app.use(function(err, req, res, next) {
 ngrok.connect({
   authtoken: process.env.TOKEN,
   port: 3000,
-  hostname: "ngrok.connorpeshek.me"
+  hostname: process.env.SUBDOMAIN
 }).then(res => {
-  open(res)
+  open(res);
 })
 
 module.exports = app;
