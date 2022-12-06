@@ -6,6 +6,7 @@ var logger = require('morgan');
 var ngrok = require('ngrok');
 var open = require('open');
 require('dotenv').config();
+const NODE_ENV = process.env.NODE_ENV
 
 
 var indexRouter = require('./routes/index');
@@ -42,11 +43,29 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-ngrok.connect({
+
+
+const ngrokOpts = {
   authtoken: process.env.TOKEN,
-  port: 3000,
-  hostname: process.env.SUBDOMAIN
-}).then(res => {
+  port: 3000
+}
+
+
+if (NODE_ENV === "production") {
+  ngrokOpts.subdomain = "deployment"
+
+} else if (NODE_ENV === "staging") {
+  ngrokOpts.subdomain = "staging-deployment"
+  // ngrokOpts.oauth = myTeamEmails
+
+} else {
+  // presume localhost, spin up on random url
+  // ngrokOpts.oauth = myTeamEmails
+
+}
+
+
+ngrok.connect(ngrokOpts).then(res => {
   open(res);
 })
 
