@@ -52,6 +52,11 @@ const ngrokOpts = {
 
 
 if (NODE_ENV === "production") {
+  // For now, this tunnels to a subdomain on
+  // ngrok. For an official deployment
+  // a CNAME setup is recommended
+  // https://ngrok.com/docs/guides/how-to-set-up-a-custom-domain
+  
   ngrokOpts.subdomain = "deployment"
 
 } else if (NODE_ENV === "staging") {
